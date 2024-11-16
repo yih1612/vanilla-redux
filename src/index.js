@@ -6,14 +6,19 @@ const num = document.querySelector("span");
 
 num.innerText = 0;
 
+const ADD = "ADD";
+const MINUS = "MINUS";
+
 // reducer: 함수. state를 수정하는 곳
 const reducer = (state = 0, action) => {
-  if (action.type === "ADD") {
-    return state + 1;
-  } else if (action.type === "MINUS") {
-    return state - 1;
+  switch (action.type) {
+    case ADD:
+      return state + 1;
+    case MINUS:
+      return state - 1;
+    default:
+      return state;
   }
-  return state;
 };
 
 // store: state(데이터)를 저장하는 곳
@@ -31,11 +36,11 @@ store.subscribe(onChange);
 
 const handleAdd = () => {
   // dispatch에 action값을 넣어서 reducer에서 action값에 맞게 state를 수정
-  store.dispatch({ type: "ADD" });
+  store.dispatch({ type: ADD });
 };
 
 const handleMinus = () => {
-  store.dispatch({ type: "MINUS" });
+  store.dispatch({ type: MINUS });
 };
 
 add.addEventListener("click", handleAdd);
