@@ -1,47 +1,31 @@
 import { createStore } from "redux";
 
-const add = document.getElementById("add");
-const minus = document.getElementById("minus");
-const num = document.querySelector("span");
+const form = document.querySelector("form");
+const input = document.querySelector("input");
+const ul = document.querySelector("ul");
 
-num.innerText = 0;
+const ADD_TODO = "ADD_TODO";
+const DELETE_TODO = "DELETE_TODO";
 
-const ADD = "ADD";
-const MINUS = "MINUS";
-
-// reducer: 함수. state를 수정하는 곳
-const reducer = (state = 0, action) => {
+const reducer = (state = [], action) => {
+  console.log(action);
   switch (action.type) {
-    case ADD:
-      return state + 1;
-    case MINUS:
-      return state - 1;
+    case ADD_TODO:
+      return [];
+    case DELETE_TODO:
+      return [];
     default:
       return state;
   }
 };
 
-// store: state(데이터)를 저장하는 곳
-// createStore: store을 만듦
-// createStore(reducer)
 const store = createStore(reducer);
 
-const onChange = () => {
-  num.innerText = store.getState();
+const onSubmit = (e) => {
+  e.preventDefault();
+  const toDo = input.value;
+  input.value = "";
+  store.dispatch({ type: ADD_TODO, text: toDo });
 };
 
-// store.subscribe(function);
-// store의 변화가 감지되면 function 실행
-store.subscribe(onChange);
-
-const handleAdd = () => {
-  // dispatch에 action값을 넣어서 reducer에서 action값에 맞게 state를 수정
-  store.dispatch({ type: ADD });
-};
-
-const handleMinus = () => {
-  store.dispatch({ type: MINUS });
-};
-
-add.addEventListener("click", handleAdd);
-minus.addEventListener("click", handleMinus);
+form.addEventListener("submit", onSubmit);
